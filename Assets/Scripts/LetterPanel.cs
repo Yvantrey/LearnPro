@@ -3,34 +3,23 @@ using UnityEngine;
 
 public class LetterPanel : MonoBehaviour
 {
-    private TMP_Text letterText;
-    private TMP_Text wordsText;
+    [SerializeField] private TMP_Text letterText;
+    [SerializeField] private TMP_Text wordsText;
 
     private void Awake()
     {
-        TMP_Text[] texts = GetComponentsInChildren<TMP_Text>(true);
-
-        foreach (TMP_Text text in texts)
+        if (letterText == null || wordsText == null)
         {
-            if (text.gameObject.name == "LetterText")
+            TMP_Text[] texts = GetComponentsInChildren<TMP_Text>(true);
+            foreach (TMP_Text text in texts)
             {
-                letterText = text;
-            }
-            else if (text.gameObject.name == "WordsText")
-            {
-                wordsText = text;
+                if (text.gameObject.name == "LetterText") letterText = text;
+                else if (text.gameObject.name == "WordsText") wordsText = text;
             }
         }
 
-        if (letterText == null)
-        {
-            Debug.LogError("LetterPanel: LetterText was not found.");
-        }
-
-        if (wordsText == null)
-        {
-            Debug.LogError("LetterPanel: WordsText was not found.");
-        }
+        if (letterText == null) Debug.LogError("LetterPanel: LetterText was not found.");
+        if (wordsText == null) Debug.LogError("LetterPanel: WordsText was not found.");
     }
 
     public void ShowLetter(string letter)
