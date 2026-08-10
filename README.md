@@ -43,18 +43,31 @@ In the Project window, navigate to:
 Assets → Scenes → MainScene
 ```
 
-### 3. Check the AR Image Library
+### 3. Check the Scenes in Build Profiles
+In Unity, go to:
+```
+File → Build Profiles → Android
+```
+Make sure both scenes are included in this order:
+| Index | Scene |
+|---|---|
+| **0** | `MainMenu` |
+| **1** | `MainScene` |
+
+This ensures the app opens with the **MainMenu** when launched.
+
+### 4. Check the AR Image Library
 Select **XR Origin** in the Hierarchy. Under **AR Tracked Image Manager**, make sure:
 - **Serialized Library:** `AlphabetLibrary`
 - **Max Number Of Moving Images:** `1`
 - **Tracked Image Prefab:** `None`
 
-### 4. Check the Alphabet Tracker
+### 5. Check the Alphabet Tracker
 On **XR Origin**, make sure **Alphabet Image Tracker** is attached with:
 - **Tracked Image Manager:** `AR Tracked Image Manager`
 - **Letter Panel Prefab:** `LetterPanel`
 
-### 5. Check the Alphabet Library
+### 6. Check the Alphabet Library
 **AlphabetLibrary** should contain reference images for all 26 letters:
 ```
 A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
@@ -73,7 +86,7 @@ In Unity, go to:
 ```
 File → Build Profiles → Android
 ```
-Make sure **MainScene** is included in the scenes list.
+Make sure both **MainMenu** and **MainScene** are included in the scenes list in the correct order.
 
 ### 3. Build and Run
 Click **Build And Run** — Unity will build and install the app on your phone.
@@ -82,12 +95,14 @@ Click **Build And Run** — Unity will build and install the app on your phone.
 
 ## 🧒 How a Child Uses the App
 
-1. Open **LearnPro**
-2. Allow **camera permission**
-3. Hold one of the **printed alphabet letters** in front of the camera
-4. Wait for **AR Foundation** to recognize the letter
-5. The app displays the **letter and example words** in AR
-6. Move to another letter to **continue learning**
+1. Open **LearnPro** — the **MainMenu** appears
+2. Press **Start Learning** to enter the AR experience
+3. Allow **camera permission**
+4. Hold one of the **printed alphabet letters** in front of the camera
+5. Wait for **AR Foundation** to recognize the letter
+6. The app displays the **letter and example words** in AR
+7. Move to another letter to **continue learning**
+8. Press **Exit** to return to the **MainMenu**
 
 ---
 
@@ -101,7 +116,27 @@ Click **Build And Run** — Unity will build and install the app on your phone.
 
 ---
 
+## 🗺️ App Flow
+
+```
+Launch App
+    ↓
+MainMenu (Scene 0)
+    ↓ Start Learning
+MainScene (Scene 1)
+    ↓ Exit
+MainMenu (Scene 0)
+```
+
+---
+
 ## 📜 Project Scripts
+
+### `MainMenuManager.cs`
+Handles the **MainMenu UI**. The **Start Learning** button loads `MainScene`, and the **How To Play** button displays usage instructions.
+
+### `SceneNavigation.cs`
+Handles the **Exit button** inside `MainScene`, returning the user back to the **MainMenu**.
 
 ### `AlphabetImageTracker.cs`
 Handles the **AR image tracking system**. Detects which alphabet reference image is being recognized and creates or updates the AR learning panel.
