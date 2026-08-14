@@ -69,7 +69,7 @@ public class AlphabetImageTracker : MonoBehaviour
         );
 
         panel.transform.localPosition = panelOffset;
-        panel.transform.localRotation = Quaternion.identity;
+        panel.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
 
         LetterPanel letterPanel = panel.GetComponent<LetterPanel>();
 
@@ -107,7 +107,7 @@ public class AlphabetImageTracker : MonoBehaviour
         if (isTracking)
         {
             panel.transform.localPosition = panelOffset;
-            panel.transform.localRotation = Quaternion.identity;
+            panel.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
 
             LetterPanel letterPanel =
                 panel.GetComponent<LetterPanel>();
