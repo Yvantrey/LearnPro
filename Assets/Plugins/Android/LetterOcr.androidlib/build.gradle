@@ -1,0 +1,23 @@
+apply plugin: 'com.android.library'
+
+android {
+    namespace 'com.learnpro.letterocr'
+    // Unity does not expand **APIVERSION** placeholders inside .androidlib modules.
+    // Keep these aligned with the Android SDK values configured by this project.
+    compileSdk 36
+
+    defaultConfig {
+        minSdk 26
+        targetSdk 36
+    }
+}
+
+repositories {
+    google()
+    mavenCentral()
+}
+
+dependencies {
+    // Bundled Latin OCR model: works immediately without downloading a model.
+    implementation 'com.google.mlkit:text-recognition:16.0.1'
+}

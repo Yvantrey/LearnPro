@@ -12,7 +12,11 @@ public class AlphabetImageTracker : MonoBehaviour
     public GameObject letterPanelPrefab;
 
     [Header("Panel Position")]
-    public Vector3 panelOffset = new Vector3(0f, 0.15f, 0f);
+    [Tooltip("Distance in front of the detected letter image.")]
+    public Vector3 panelOffset = new Vector3(0f, 0f, 0.01f);
+
+    [Tooltip("World-space scale for the word panel.")]
+    public float panelScale = 0.001f;
 
     private Dictionary<TrackableId, GameObject> panels =
         new Dictionary<TrackableId, GameObject>();
@@ -68,8 +72,7 @@ public class AlphabetImageTracker : MonoBehaviour
             trackedImage.transform
         );
 
-        panel.transform.localPosition = panelOffset;
-        panel.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
+        SetPanelTransform(panel);
 
         LetterPanel letterPanel = panel.GetComponent<LetterPanel>();
 
@@ -106,8 +109,7 @@ public class AlphabetImageTracker : MonoBehaviour
 
         if (isTracking)
         {
-            panel.transform.localPosition = panelOffset;
-            panel.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
+            SetPanelTransform(panel);
 
             LetterPanel letterPanel =
                 panel.GetComponent<LetterPanel>();
@@ -128,6 +130,18 @@ public class AlphabetImageTracker : MonoBehaviour
         {
             Destroy(panel);
             panels.Remove(trackedImage.trackableId);
+        }
+    }
+
+    private void SetPanelTransform(GameObject panel)
+    {
+        panel.transform.localPosition = panelOffset;
+        panel.transform.localRotation = Quaternion.identity;
+        panel.transform.localScale = Vector3.one * panelScale;
+
+        if (panel.TryGetComponent(out RectTransform panelRect))
+        {
+            panelRect.anchoredPosition = Vector2.zero;
         }
     }
 }
